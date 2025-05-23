@@ -8,7 +8,8 @@ import Signup from "./views/Signup";
 import Users from "./views/Users";
 import UserForm from "./views/UserForm";
 import HistoryTable from "./views/HistoryTable.jsx";
-import ItemTable from "./views/ItemTable.jsx";
+import EquipmentTable from "./views/EquipmentTable.jsx";
+import EquipmentTableForm from './views/EquipmentTableForm.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -35,8 +36,12 @@ const router = createBrowserRouter([
         element: <UserForm key="userUpdate" />
       },
       {
-        path: '/items',
-        element: <ItemTable/>
+        path: '/equipments',
+        element: <EquipmentTable/>
+      },
+      {
+        path: '/equipments/new',
+        element: <EquipmentTableForm />
       },
       {
         path: '/history',

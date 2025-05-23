@@ -85,7 +85,7 @@ input:focus {
 .btn:hover,
 .btn:active,
 .btn:focus {
-    background: #5b08a7;
+    background: #0430c2;
 }
 
 .text-center {
@@ -242,3 +242,83 @@ table > tbody > tr > td {
     }
 }
 
+/* Equipment Modal Style */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  width: 95%;
+  max-width: 1200px; /* Wider modal */
+  padding: 2rem;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: crimson;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+}
+
+/* EquipmentTableForm CSS */
+
+.equipment-form .form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.equipment-form .form-row > div {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.equipment-form label {
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.equipment-form input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.equipment-form .form-row .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.equipment-form .form-row .long {
+  flex: 2;
+  min-width: 275px;
+}
+
+.equipment-form .form-row .short {
+  flex: 1;
+  min-width: 75px;
+}
