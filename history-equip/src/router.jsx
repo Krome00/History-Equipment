@@ -43,11 +43,14 @@ const router = createBrowserRouter([
         path: '/equipments/new',
         element: <EquipmentTableForm />
       },
-      {
-        path: '/history',
-        element: <HistoryTable/>
+      { 
+        path: '/history', 
+        element: <HistoryTable /> 
       },
-      
+      { 
+        path: '/history/:id', 
+        element: <HistoryTableForm /> 
+      },
     ]
   },
   {

@@ -4,70 +4,48 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider.jsx";
 import EquipmentTableForm from "./EquipmentTableForm";
 import { FaEdit, FaTrash, FaHistory } from 'react-icons/fa';
+import Pagination from '../components/Pagination';
+// import dummyEquipments from "../dummy/dummyData.js";
+import SearchAndFilter from "../components/SearchAndFilter";
 
 export default function EquipmentTable() {
   const [loading, setLoading] = useState(false);
   const [equipments, setEquipments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedEquipment, setSelectedEquipment] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
 
   const { setNotification } = useStateContext();
-  const dummyEquipments = [
-    {
-      id: 1,
-      name: "Forklift Model X200",
-      description:
-        "Heavy-duty warehouse forklift with extended lift height.\nUsed primarily in loading bay.",
-      plate_no: "FLT-2041",
-      chassis_no: "CHSXL204X200",
-      engine_no: "ENGX200A947",
-      accountable_office: "Warehouse Dept.",
-      property_no: "PROP-001",
-      date_acquired: "2022-06-15",
-      acquisition_cost: "120000.00",
-      date_unserviceable: "2025-01-12",
-      accountable_officer: "John Doe",
-    },
-    {
-      id: 2,
-      name: "Excavator ZX350LC",
-      description:
-        "Caterpillar hydraulic excavator\nUsed for deep foundation work.",
-      plate_no: "EXC-7920",
-      chassis_no: "CHSZX350LC20",
-      engine_no: "ENG350LC947X",
-      accountable_office: "Construction Ops",
-      property_no: "PROP-002",
-      date_acquired: "2021-04-22",
-      acquisition_cost: "450000.00",
-      date_unserviceable: "2024-11-30",
-      accountable_officer: "Jane Smith",
-    },
-    {
-      id: 3,
-      name: "Delivery Van Toyota HiAce",
-      description:
-        "White HiAce used for daily logistics and deliveries within Metro area.",
-      plate_no: "VAN-8842",
-      chassis_no: "CHSHIACE2021",
-      engine_no: "ENGHIACE8842",
-      accountable_office: "Logistics Dept.",
-      property_no: "PROP-003",
-      date_acquired: "2023-01-10",
-      acquisition_cost: "95000.00",
-      date_unserviceable: null,
-      accountable_officer: "Maria Lopez",
-    },
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const fetchEquipments = () => {
     setLoading(true);
-    axiosClient.get("/equipments")
-      .then(({ data }) => {
-        setEquipments(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+  axiosClient.get("/equipments")
+    .then(({ data }) => {
+      setEquipments(data);
+      setLoading(false);
+
+      // 🔥 Check if currentPage is now too high, adjust if necessary
+      const filtered = data.filter(eq =>
+        Object.values(eq).some(
+          value =>
+            value &&
+            value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        ) &&
+        (selectedFilter === "" || eq.name === selectedFilter)
+      );
+      const newTotalPages = Math.ceil(filtered.length / pageSize);
+      if (currentPage > newTotalPages && newTotalPages > 0) {
+        setCurrentPage(newTotalPages);
+      }
+    })
+    .catch(() => setLoading(false));
+    // setTimeout(() => {
+    //   setEquipments(dummyEquipments);
+    //   setLoading(false);
+    // }, 500);
   };
 
   useEffect(() => {
@@ -97,15 +75,35 @@ export default function EquipmentTable() {
     setShowModal(false);
     setSelectedEquipment(null);
   };
-
+  const filteredEquipments =equipments.filter(eq =>
+    Object.values(eq).some(
+      value =>
+        value &&
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    ) &&
+    (selectedFilter === "" || eq.name === selectedFilter)
+  );
+  const totalPages = Math.ceil(filteredEquipments.length / pageSize);
+  const paginatedEquipments = filteredEquipments.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
         <h1>Equipments</h1>
         <button className="btn-add" onClick={handleAddNew}>Add New</button>
       </div>
-
-      <div className="card animated fadeInDown" style={{ overflowX: 'auto' }}>
+      <div style={{ marginTop: "2rem", marginBottom: "0rem" }}>
+        <SearchAndFilter
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        selectedFilter={selectedFilter}
+        onFilterChange={setSelectedFilter}
+      />
+      </div>
+      
+      <div className="card animated fadeInDown" style={{ overflowX: 'auto', marginTop: "0rem" }}>
         <table>
           <thead>
             <tr>
@@ -123,13 +121,14 @@ export default function EquipmentTable() {
               <th>Accountable Officer</th>
             </tr>
           </thead>
+
           {loading ? (
             <tbody>
               <tr><td colSpan="12" className="text-center">Loading...</td></tr>
             </tbody>
           ) : (
             <tbody>
-              {/*equipments*/dummyEquipments.map((eq) => (
+              {/*equipments*/paginatedEquipments.map((eq) => (
                 <tr key={eq.id}>
                   <td>
                     <button onClick={() => handleEdit(eq)} title="Edit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
@@ -159,7 +158,11 @@ export default function EquipmentTable() {
           )}
         </table>
       </div>
-
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -168,8 +171,8 @@ export default function EquipmentTable() {
               initialData={selectedEquipment}
               onClose={handleCloseModal}
               onSaved={() => {
-                setShowModal(false);
-                axiosClient.get("/equipments").then(({ data }) => setEquipments(data));
+                handleCloseModal();
+                fetchEquipments();
               }}
             />
           </div>
