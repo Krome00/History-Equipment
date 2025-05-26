@@ -2,7 +2,7 @@ import {createBrowserRouter, Navigate} from "react-router-dom";
 import Dashboard from "./Dashboard.jsx";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
-import Login from "./views/login";
+import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import Signup from "./views/Signup";
 import Users from "./views/Users";
@@ -46,10 +46,6 @@ const router = createBrowserRouter([
       { 
         path: '/history', 
         element: <HistoryTable /> 
-      },
-      { 
-        path: '/history/:id', 
-        element: <HistoryTableForm /> 
       },
     ]
   },
