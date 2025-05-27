@@ -47,6 +47,10 @@ const router = createBrowserRouter([
         path: '/history', 
         element: <HistoryTable /> 
       },
+      {
+        path: '/equipments/:id/history',
+        element: <HistoryTable/>
+      }
     ]
   },
   {

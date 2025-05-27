@@ -92,15 +92,25 @@ export default function EquipmentTable() {
     <div>
       <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
         <h1>Equipments</h1>
-        <button className="btn-add" onClick={handleAddNew}>Add New</button>
       </div>
-      <div style={{ marginTop: "2rem", marginBottom: "0rem" }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: '2rem',
+          marginBottom: '1rem',
+        }}
+      >
         <SearchAndFilter
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        selectedFilter={selectedFilter}
-        onFilterChange={setSelectedFilter}
-      />
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          selectedFilter={selectedFilter}
+          onFilterChange={setSelectedFilter}
+        />
+        <button className="btn-add" onClick={handleAddNew}>
+          Add New
+        </button>
       </div>
       
       <div className="card animated fadeInDown" style={{ overflowX: 'auto', marginTop: "0rem" }}>
@@ -134,7 +144,7 @@ export default function EquipmentTable() {
                     <button onClick={() => handleEdit(eq)} title="Edit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                       <FaEdit />
                     </button>
-                    <Link to={`/history/${eq.id}`} title="History" style={{ margin: '0 10px' }}>
+                    <Link to={`/equipments/${eq.id}/history`} title="History" style={{ margin: '0 10px' }}>
                       <FaHistory />
                     </Link>
                     <button onClick={() => handleDelete(eq)} title="Delete" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
@@ -142,7 +152,7 @@ export default function EquipmentTable() {
                     </button>
                   </td>
                   <td>{eq.name}</td>
-                  <td>{eq.description}</td>
+                  <td className="truncate-cell">{eq.description}</td>
                   <td>{eq.plate_no}</td>
                   <td>{eq.chassis_no}</td>
                   <td>{eq.engine_no}</td>

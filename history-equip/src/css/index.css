@@ -279,6 +279,12 @@ table > tbody > tr > td {
   padding: 0.4rem 0.6rem;
   cursor: pointer;
 }
+.truncate-cell {
+  max-width: 400px; /* adjust width as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* EquipmentTableForm CSS */
 
@@ -349,4 +355,68 @@ table > tbody > tr > td {
   opacity: 0.5;
 }
 
-/* Search And Filter CSS */
+/* History Table Form CSS */
+.parts-section {
+  margin-bottom: 1.5rem;
+}
+
+.parts-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0rem;
+  align-items: top;
+}
+
+.parts-header {
+  font-weight: bold;
+}
+
+.parts-col {
+  flex: 1;
+}
+
+.parts-col.short {
+  flex: 0 0 195px;
+}
+.parts-col.short-name {
+  flex: 0 0 450px;
+}
+
+.parts-col.short-qty {
+  flex: 0 0 60px;
+}
+
+.parts-col.short-unit {
+  flex: 0 0 60px;
+}
+
+
+.parts-col.actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: top; 
+  vertical-align: bottom
+}
+
+.parts-col input {
+  width: 100%;
+  padding: 4px;
+  font-size: 0.9rem;
+  height: 28px;
+  box-sizing: border-box;
+}
+
+.btn-remove {
+  background-color: #f87171;
+  border: none;
+  padding: 4px 8px;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  height: 28px; 
+  cursor: pointer;
+}
+
+.btn-remove:hover {
+  background-color: #ef4444;
+}

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EquipmentController;
+use App\Http\Controllers\Api\HistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,14 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::apiResource('/equipments', EquipmentController::class);
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::prefix('equipments/{equipmentId}/history')->group(function () {
+    Route::get('/', [HistoryController::class, 'index']);
+    Route::post('/', [HistoryController::class, 'store']);
+});
+
+Route::prefix('history')->group(function () {
+    Route::get('{id}', [HistoryController::class, 'show']);
+    Route::put('{id}', [HistoryController::class, 'update']);
+    Route::delete('{id}', [HistoryController::class, 'destroy']);
+});
