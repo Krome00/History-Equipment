@@ -40,3 +40,5 @@ Route::prefix('history')->group(function () {
     Route::put('{id}', [HistoryController::class, 'update']);
     Route::delete('{id}', [HistoryController::class, 'destroy']);
 });
+
+Route::get('/report/equipments-with-history', [EquipmentController::class, 'exportWithHistories']);

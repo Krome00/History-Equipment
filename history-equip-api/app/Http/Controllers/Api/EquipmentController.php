@@ -37,6 +37,19 @@ class EquipmentController extends Controller
     {
         return $equipment;
     }
+    public function exportWithHistories()
+    {
+        try {
+            $equipments = Equipment::with(['histories.parts'])->get();
+            return response()->json($equipments);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
 
     public function update(Request $request, Equipment $equipment)
     {

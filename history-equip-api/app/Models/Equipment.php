@@ -20,4 +20,15 @@ class Equipment extends Model
         'accountable_office',
         'accountable_officer',
     ];
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+    
+    public function exportWithHistories()
+    {
+        $equipments = Equipment::with(['histories.parts'])->get();
+
+        return response()->json($equipments);
+    }
 }
