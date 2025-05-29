@@ -7,6 +7,7 @@ import { FaEdit, FaTrash, FaHistory } from 'react-icons/fa';
 import Pagination from '../components/Pagination';
 // import dummyEquipments from "../dummy/dummyData.js";
 import SearchAndFilter from "../components/SearchAndFilter";
+import generateExcel from '../utils/generateExcel.js';
 
 export default function EquipmentTable() {
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,6 @@ export default function EquipmentTable() {
       setEquipments(data);
       setLoading(false);
 
-      // 🔥 Check if currentPage is now too high, adjust if necessary
       const filtered = data.filter(eq =>
         Object.values(eq).some(
           value =>
@@ -46,6 +46,16 @@ export default function EquipmentTable() {
     //   setEquipments(dummyEquipments);
     //   setLoading(false);
     // }, 500);
+  };
+  const handleDownload = () =>{
+    axiosClient.get('/report/equipments-with-history')
+    .then(({ data }) => {
+      // console.log(data);
+      generateExcel(data); 
+    })
+    .catch((error) => {
+      console.error("Failed to fetch data", error);
+    });
   };
 
   useEffect(() => {
@@ -101,16 +111,24 @@ export default function EquipmentTable() {
           marginTop: '2rem',
           marginBottom: '1rem',
         }}
-      >
+        >
+        {/* Left: Search */}
         <SearchAndFilter
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           selectedFilter={selectedFilter}
           onFilterChange={setSelectedFilter}
         />
-        <button className="btn-add" onClick={handleAddNew}>
-          Add New
-        </button>
+
+        {/* Right: Add + Download */}
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className="btn-add" onClick={handleAddNew}>
+            + Add New
+          </button>
+          <button className="btn-add" onClick={handleDownload}>
+            Download
+          </button>
+        </div>
       </div>
       
       <div className="card animated fadeInDown" style={{ overflowX: 'auto', marginTop: "0rem" }}>
