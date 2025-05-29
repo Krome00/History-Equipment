@@ -25,7 +25,8 @@ export default function EquipmentTable() {
     setLoading(true);
   axiosClient.get("/equipments")
     .then(({ data }) => {
-      setEquipments(data);
+      const reversedData = data.reverse();
+      setEquipments(reversedData);
       setLoading(false);
 
       const filtered = data.filter(eq =>
@@ -124,9 +125,9 @@ export default function EquipmentTable() {
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button className="btn-add" onClick={handleAddNew}>
             + Add New
-          </button>
+          </button> 
           <button className="btn-add" onClick={handleDownload}>
-            Download
+            Download All
           </button>
         </div>
       </div>

@@ -23,10 +23,10 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <Dashboard/>
       },
-      {
-        path: '/users',
-        element: <Users/>
-      },
+      // {
+      //   path: '/users',
+      //   element: <Users/>
+      // },
       {
         path: '/users/new',
         element: <UserForm key="userCreate" />

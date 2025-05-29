@@ -51,9 +51,9 @@ export default function DefaultLayout() {
           <Menu.Item key="/equipments">  
             <Link to="/equipments">Equipments Table</Link>
           </Menu.Item>
-          <Menu.Item key="/users">
+          {/* <Menu.Item key="/users">
             <Link to="/users">Users</Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
 

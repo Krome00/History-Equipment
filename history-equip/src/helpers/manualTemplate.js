@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
  * Generates Excel manually with duplicated template structure
  * @param {Array} equipments - Equipment array with history data
  */
-const excelGenerate = async (equipments) => {
+const manualTemplate = async (equipments) => {
     console.log(equipments);
   try {
     const workbook = await XlsxPopulate.fromBlankAsync();
@@ -200,31 +200,9 @@ const excelGenerate = async (equipments) => {
     sheet.row('27').height(25.50)
     sheet.row('30').height(17.25)
 
-     for (const equipment of equipments) {
-      sheet.cell('E9').value(equipment.name)
-      for(const history of equipment.histories ){
-        sheet.cell('D18').value(history.supplier_or_mechanic)
-        for(const part of history.parts){
-            sheet.cell('M18').value(part.unit_price)
-        }
-      }
-      
-    //   sheet.cell('M18').value(equipment.histories.parts.unit_price)
-    }
-
-    // ----------- DOWNLOAD FILE -----------
-    const blob = await workbook.outputAsync();
-    const url = window.URL.createObjectURL(new Blob([blob]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "equipment-history.xlsx";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
   } catch (err) {
     console.error("Excel generation failed", err);
   }
 };
 
-export default excelGenerate;
+export default manualTemplate;

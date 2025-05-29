@@ -5,6 +5,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import HistoryTableForm from "./HistoryTableForm";
 import Pagination from "../components/Pagination";
 import { useStateContext } from "../context/ContextProvider.jsx";
+import singleEquipmentExcel from "../utils/singleEquimentExcel.js";
 
 export default function HistoryTable() {
   const { id: equipmentId } = useParams();
@@ -35,7 +36,16 @@ export default function HistoryTable() {
     setSelectedItem(null);
     setShowModal(true);
   };
-
+  const handleDownload = () =>{
+    axiosClient.get(`/equipments/${equipmentId}/single-history`)
+    .then(({ data }) => {
+      // console.log(data);
+      singleEquipmentExcel(data); 
+    })
+    .catch((error) => {
+      console.error("Failed to fetch data", error);
+    });
+  };
   const handleEdit = (item) => {
     setSelectedItem(item);
     setShowModal(true);
@@ -67,7 +77,11 @@ export default function HistoryTable() {
     <div>
       <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
         <h1>History Records</h1>
-        <button className="btn-add" onClick={handleAddNew}>Add New</button>
+        
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className="btn-add" onClick={handleAddNew}>Add New</button>
+          <button className="btn-add" onClick={handleDownload}>Download</button>
+        </div>
       </div>
 
       <div className="card animated fadeInDown" style={{ overflowX: 'auto', marginTop: "1rem" }}>
@@ -126,7 +140,7 @@ export default function HistoryTable() {
                       <td>{part.qty !== undefined && part.qty !== null ? part.qty : "—"}</td>
                       <td>{part.unit || "—"}</td>
                       <td>{part.unit_price !== undefined ? part.unit_price : "—"}</td>
-                      <td>{part.total !== undefined ? part.total : "—"}</td>
+                      <td>{part.total !== undefined ? part.total : part.unit_price}</td>
                       {index === 0 && <td rowSpan={item.parts.length}>{item.remarks}</td>}
                     </tr>
                   ))

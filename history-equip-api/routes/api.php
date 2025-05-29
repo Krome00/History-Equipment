@@ -42,3 +42,4 @@ Route::prefix('history')->group(function () {
 });
 
 Route::get('/report/equipments-with-history', [EquipmentController::class, 'exportWithHistories']);
+Route::get('/equipments/{equipment}/single-history', [EquipmentController::class, 'getSingleEquipmentHistory']);

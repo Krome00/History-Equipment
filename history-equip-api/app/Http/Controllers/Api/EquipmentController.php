@@ -50,6 +50,20 @@ class EquipmentController extends Controller
             ], 500);
         }
     }
+    public function getSingleEquipmentHistory($id)
+    {
+        try{
+            $equipment = Equipment::with(['histories.parts'])->findOrFail($id);
+            return response()->json($equipment);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+        
+    }
 
     public function update(Request $request, Equipment $equipment)
     {
