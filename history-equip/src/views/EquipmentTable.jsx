@@ -7,7 +7,8 @@ import { FaEdit, FaTrash, FaHistory } from 'react-icons/fa';
 import Pagination from '../components/Pagination';
 // import dummyEquipments from "../dummy/dummyData.js";
 import SearchAndFilter from "../components/SearchAndFilter";
-import generateExcel from '../utils/generateExcel.js';
+import generateExcelOneSheet from '../utils/generateExcelOneSheet.js';
+import generateExcelMultiSheet from "../utils/generateExcelMultiSheet.js";
 
 export default function EquipmentTable() {
   const [loading, setLoading] = useState(false);
@@ -51,8 +52,10 @@ export default function EquipmentTable() {
   const handleDownload = () =>{
     axiosClient.get('/report/equipments-with-history')
     .then(({ data }) => {
-      // console.log(data);
-      generateExcel(data); 
+
+      // generateExcelOneSheet(data);
+      generateExcelMultiSheet(data);
+      
     })
     .catch((error) => {
       console.error("Failed to fetch data", error);

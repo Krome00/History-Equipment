@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
  * Generates Excel manually with duplicated template structure
  * @param {Array} equipments - Equipment array with history data
  */
-const generateExcel = async (equipments) => {
+const generateExcelOneSheet = async (equipments) => {
   try {
     let startRow = 1;
     const GAP = 6;
@@ -278,4 +278,4 @@ const generateExcel = async (equipments) => {
   }
 };
 
-export default generateExcel;
+export default generateExcelOneSheet;
